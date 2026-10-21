@@ -1,0 +1,16 @@
+# Archivos de entorno y credenciales
+.env
+
+# Entornos virtuales
+venv/
+env/
+ENV/
+
+# Archivos compilados de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db

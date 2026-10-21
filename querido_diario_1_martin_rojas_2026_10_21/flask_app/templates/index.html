@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Querido Diario - Inicio</title>
+    <!-- Enlace a Bootstrap CSS para diseño responsivo -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Enlace a la hoja de estilos personalizada -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container mt-4">
+        <!-- Título principal de la aplicación -->
+        <h1 class="text-center">Querido Diario</h1>
+        
+        <div class="row mt-5">
+            <!-- SECCIÓN DE REGISTRO DE NUEVOS USUARIOS -->
+            <div class="col-md-6">
+                <h2>Registro</h2>
+                
+                <!-- Bloque para mostrar mensajes Flash específicos de validación de registro -->
+                {% with messages = get_flashed_messages(category_filter=['registro']) %}
+                    {% if messages %}
+                        <div class="alert alert-danger">
+                            <ul>
+                                {% for message in messages %}
+                                    <li>{{ message }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                <!-- Formulario de registro con método POST hacia el controlador de usuarios -->
+                <form action="/registrar" method="POST">
+                    <div class="mb-3">
+                        <label>Nombre:</label>
+                        <input type="text" name="nombre" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label>Apellido:</label>
+                        <input type="text" name="apellido" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label>E-mail:</label>
+                        <input type="email" name="email" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label>Edad:</label>
+                        <input type="number" name="edad" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label>Contraseña:</label>
+                        <input type="password" name="password" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label>Confirmar Contraseña:</label>
+                        <input type="password" name="confirm_password" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Registrar</button>
+                </form>
+            </div>
+
+            <!-- SECCIÓN DE INICIO DE SESIÓN -->
+            <div class="col-md-6">
+                <h2>Inicio de Sesión</h2>
+                
+                <!-- Bloque para mostrar mensajes Flash de errores al iniciar sesión -->
+                {% with messages = get_flashed_messages(category_filter=['login']) %}
+                    {% if messages %}
+                        <div class="alert alert-danger">
+                            <ul>
+                                {% for message in messages %}
+                                    <li>{{ message }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                <!-- Formulario de acceso con método POST -->
+                <form action="/login" method="POST">
+                    <div class="mb-3">
+                        <label>E-mail:</label>
+                        <input type="email" name="email" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label>Contraseña:</label>
+                        <input type="password" name="password" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-success">Iniciar Sesión</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

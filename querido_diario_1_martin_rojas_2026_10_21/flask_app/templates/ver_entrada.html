@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ver Entrada - Querido Diario</title>
+    <!-- Enlace a Bootstrap CSS para un diseño responsivo -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Enlace a la hoja de estilos personalizada -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container mt-4">
+        <!-- Encabezado con botones de navegación superior para volver al inicio o cerrar sesión -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <a href="/dashboard" class="btn btn-outline-secondary me-2">Inicio</a>
+                <a href="/logout" class="btn btn-outline-danger">Cerrar Sesión</a>
+            </div>
+        </div>
+
+        <!-- Tarjeta principal que encapsula la vista detallada de la entrada -->
+        <div class="card shadow">
+            <div class="card-body">
+                <!-- Título dinámico que muestra la fecha correspondiente a la entrada -->
+                <h2 class="card-title mb-3">Entrada de {{ entrada.fecha }}</h2>
+                <hr>
+                <!-- Contenido completo de las notas con la propiedad white-space para respetar saltos de línea -->
+                <p class="card-text" style="white-space: pre-wrap;">{{ entrada.notas }}</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

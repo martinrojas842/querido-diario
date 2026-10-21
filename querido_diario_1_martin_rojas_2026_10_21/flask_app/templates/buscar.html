@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Querido Diario - Resultados de Búsqueda</title>
+    <!-- Enlace a Bootstrap CSS para diseño responsivo -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Enlace a la hoja de estilos personalizada -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container mt-4">
+        <!-- Encabezado con título dinámico que muestra el término buscado y botones de navegación -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Resultados de Búsqueda: "{{ termino }}"</h1>
+            <div>
+                <a href="/dashboard" class="btn btn-outline-secondary me-2">Inicio</a>
+                <a href="/logout" class="btn btn-outline-danger">Cerrar Sesión</a>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- Contenedor para la lista de resultados de la búsqueda -->
+        <div class="row">
+            <!-- Verificación condicional si existen entradas coincidentes -->
+            {% if entradas %}
+                {% for entrada in entradas %}
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Entrada</h5>
+                                <!-- Fecha de la entrada almacenada -->
+                                <h6 class="card-subtitle mb-2 text-muted">{{ entrada.fecha }}</h6>
+                                <!-- Texto de las notas truncado para la vista previa -->
+                                <p class="card-text text-truncate">{{ entrada.notas }}</p>
+                                
+                                <!-- Botones de acción rápida para cada entrada encontrada -->
+                                <div class="d-flex justify-content-between">
+                                    <a href="/editar/{{ entrada.id }}" class="btn btn-sm btn-warning">Editar</a>
+                                    <a href="/borrar/{{ entrada.id }}" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro que deseas borrar?');">Borrar</a>
+                                    <a href="/ver/{{ entrada.id }}" class="btn btn-sm btn-info">Ver</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <!-- Mensaje informativo cuando la consulta no arroja coincidencias -->
+                <p class="text-muted">No se encontraron entradas que coincidan con "{{ termino }}".</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

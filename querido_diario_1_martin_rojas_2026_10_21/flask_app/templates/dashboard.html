@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Querido Diario</title>
+    <!-- Enlace a Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Enlace a tu CSS personalizado -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container mt-4">
+        <!-- Encabezado con Saludo y Enlaces Superiores -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Bienvenid@, {{ session['nombre_usuario'] }}</h1>
+            <div>
+                <a href="/nueva" class="btn btn-outline-primary me-2">Nueva Entrada</a>
+                <a href="/logout" class="btn btn-outline-danger">Cerrar Sesión</a>
+            </div>
+        </div>
+
+        <!-- Mensajes Flash de notificaciones -->
+        {% with messages = get_flashed_messages(category_filter=['dashboard']) %}
+            {% if messages %}
+                <div class="alert alert-warning">
+                    <ul>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Barra de Búsqueda (Bonus) -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <form onsubmit="event.preventDefault(); window.location.href='/buscar/' + document.getElementById('terminoBusqueda').value;">
+                    <div class="input-group">
+                        <input type="text" id="terminoBusqueda" class="form-control" placeholder="Término a Buscar" required>
+                        <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- Listado de Entradas -->
+        <h3 class="mb-3">Tus Entradas</h3>
+        <div class="row">
+            {% if entradas %}
+                {% for entrada in entradas %}
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Entrada</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">{{ entrada.fecha }}</h6>
+                                <p class="card-text text-truncate">{{ entrada.notas }}</p>
+                                
+                                <div class="d-flex justify-content-between">
+                                    <a href="/editar/{{ entrada.id }}" class="btn btn-sm btn-warning">Editar</a>
+                                    <a href="/borrar/{{ entrada.id }}" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de borrar esta entrada?');">Borrar</a>
+                                    <a href="/ver/{{ entrada.id }}" class="btn btn-sm btn-info">Ver</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-muted">Aún no tienes entradas registradas. ¡Crea la primera!</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
